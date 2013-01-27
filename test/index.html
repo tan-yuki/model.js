@@ -3,14 +3,21 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Test for mvc.js</title>
-		<link rel="stylesheet" href="../lib/css/qunit.css">
+		<link rel="stylesheet" href="../lib/qunit/qunit/qunit.css">
 	</head>
 	<body>
 		<div id="qunit"></div>
-		<div id="qunit-fixture"></div>
+		<div id="qunit-fixture">
+			<ul>
+				<li class="task"><input type="text" /></li>
+				<li class="task"><input type="text" /></li>
+				<li class="task"><input type="text" /></li>
+			</ul>
+		</div>
 		
 		<!-- scripts -->
-		<script type="text/javascript" src="../lib/js/qunit.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="../lib/jquery/dist/jquery.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="../lib/qunit/qunit/qunit.js" charset="UTF-8"></script>
 		<script type="text/javascript" src="../src/mvc.js" charset="UTF-8"></script>
 		<script type="text/javascript" src="./mvc.test.js" charset="UTF-8"></script>
 	</body>
