@@ -43,7 +43,7 @@ model.js
   person1.save();
   person2.save();
   
-  person1.id;   // (set guid)
+  person1.id;   // (guid)
   person1.name; // === 'tanaka'
   person1.age;  // === 25
   person1.male; // === true
@@ -59,3 +59,6 @@ model.js
   Person.find(person1.id).name; // === 'sato'
   
 ````
+
+その他の使用方法についてはテストケースを見ていただければと思います。
+
