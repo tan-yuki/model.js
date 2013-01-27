@@ -1,5 +1,5 @@
 /**
- * Test case for mvc.js
+ * Test case for model.js
  */
 
 (function($, __global__) {
