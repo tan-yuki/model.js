@@ -59,7 +59,3 @@ model.js
   Person.find(person1.id).name; // === 'sato'
   
 ````
-
-##### 1.3 その他使い方いろいろ
-
-
