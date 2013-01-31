@@ -4,7 +4,7 @@
 
 
     /**
-     * Utility for MVC
+     * Utility for Model
      */
     util = {
         object: {
@@ -84,12 +84,44 @@
     Model.extend({
         records: {},
 
+        attributes: [],
+
         find: function(id) {
             var record = this.records[id];
             if (! record) {
                 throw('Not found record [id=' + id + ']');
             }
             return record.dup();
+        },
+
+        hasAttribute: function(attr) {
+            var attrs = this.attributes;
+
+            if (! attr || ! attrs.length) return false;
+
+            for (var i = 0, len = attrs.length; i < len; i++) {
+                if (attrs[i] === attr) {
+                    return true;
+                }
+            }
+
+            return false;
+        },
+
+
+        findBy: function(attr, val) {
+            var result = [];
+            if (! this.hasAttribute(attr)) {
+                return result;
+            }
+
+            for (var id in this.records) {
+                if (this.records[id][attr] === val) {
+                    result.push(this.find(id));
+                }
+            }
+
+            return result;
         },
 
         created: function() {
@@ -173,7 +205,7 @@
         }
     });
 
-    // exports mvc to global
+    // exports model to global
     __global__.Model = Model;
 
 })(this.jQuery, this);
