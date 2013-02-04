@@ -136,6 +136,15 @@
                 var record = this.init(values[i]);
                 record.save();
             }
+        },
+
+        toArray: function() {
+            var arr = [];
+            for (var _id in this.records) {
+                arr.push(this.records[_id]);
+            }
+
+            return arr;
         }
     });
 

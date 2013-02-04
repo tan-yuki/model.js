@@ -243,4 +243,47 @@
             }
         }
     });
+
+    test('Get all recoreds as array', function() {
+        var Person = Model.create();
+
+        var person1 = Person.init({
+            name: 'tanaka',
+            age:  25,
+            male: true
+        });
+        person1.save();
+
+        var person2 = Person.init({
+            name: 'akiyama',
+            age:  26,
+            male: false
+        });
+        person2.save();
+
+        var person3 = Person.init({
+            name: 'nara',
+            age:  3,
+            male: true
+        });
+        person3.save();
+
+        var recordsAsArray = Person.toArray().sort(function(a, b) {
+            return a.age < b.age;
+        });
+        ok(recordsAsArray instanceof Array);
+        equal(recordsAsArray.length, 3);
+
+        equal(recordsAsArray[0].name, 'akiyama');
+        equal(recordsAsArray[1].name, 'tanaka');
+        equal(recordsAsArray[2].name, 'nara');
+
+        equal(recordsAsArray[0].age, 26);
+        equal(recordsAsArray[1].age, 25);
+        equal(recordsAsArray[2].age, 3);
+
+        ok(! recordsAsArray[0].male);
+        ok(recordsAsArray[1].male);
+        ok(recordsAsArray[2].male);
+    });
 }) (this.jQuery, this);
