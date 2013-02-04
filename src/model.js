@@ -115,9 +115,9 @@
                 return result;
             }
 
-            for (var id in this.records) {
-                if (this.records[id][attr] === val) {
-                    result.push(this.find(id));
+            for (var _id in this.records) {
+                if (this.records[_id][attr] === val) {
+                    result.push(this.find(_id));
                 }
             }
 
@@ -154,7 +154,7 @@
         },
 
         destroy: function() {
-            delete this.parent.records[this.id];
+            delete this.parent.records[this._id];
         },
 
         /**
@@ -163,13 +163,13 @@
         save: (function() {
 
             var create = function() {
-                if (! this.id) this.id = util.guid();
+                if (! this._id) this._id = util.guid();
                 this.newRecord = false;
-                this.parent.records[this.id] = this.dup();
+                this.parent.records[this._id] = this.dup();
             };
 
             var update = function() {
-                this.parent.records[this.id] = this.dup();
+                this.parent.records[this._id] = this.dup();
             };
 
             return function() {
@@ -187,7 +187,7 @@
                 var attr = this.parent.attributes[i];
                 result[attr] = this[attr];
             }
-            result.id = this.id;
+            result._id = this._id;
             return result;
         },
 

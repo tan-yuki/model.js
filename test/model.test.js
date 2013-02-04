@@ -19,7 +19,7 @@
 
         person.save();
 
-        var p = Person.find(person.id);
+        var p = Person.find(person._id);
         equal(p.name, 'tanakayuki');
         equal(p.age,  25);
         ok(p.male)
@@ -42,9 +42,9 @@
             male: true
         });
 
-        ok(! person.id);
+        ok(! person._id);
         person.save();
-        ok(person.id);
+        ok(person._id);
     });
 
     test("Saving record should not effect to other record", function() {
@@ -64,19 +64,19 @@
         });
         person2.save();
 
-        equal(Person.find(person1.id).name, 'tanaka');
-        equal(Person.find(person1.id).age,  25);
-        ok(Person.find(person1.id).male);
+        equal(Person.find(person1._id).name, 'tanaka');
+        equal(Person.find(person1._id).age,  25);
+        ok(Person.find(person1._id).male);
 
-        equal(Person.find(person2.id).name, 'akiyama');
-        equal(Person.find(person2.id).age,  26);
-        ok(! Person.find(person2.id).male);
+        equal(Person.find(person2._id).name, 'akiyama');
+        equal(Person.find(person2._id).age,  26);
+        ok(! Person.find(person2._id).male);
 
         person1.name = 'tanaka - update';
         person1.save();
 
-        equal(Person.find(person1.id).name, 'tanaka - update');
-        equal(Person.find(person2.id).name, 'akiyama');
+        equal(Person.find(person1._id).name, 'tanaka - update');
+        equal(Person.find(person2._id).name, 'akiyama');
     });
 
     test('populate', function() {
@@ -145,12 +145,12 @@
 
         person1.destroy();
 
-        ok(Person.find(person2.id));
-        equal(Person.find(person2.id).name, 'akiyama');
-        equal(Person.find(person2.id).age, 26);
-        ok(! Person.find(person2.id).male);
+        ok(Person.find(person2._id));
+        equal(Person.find(person2._id).name, 'akiyama');
+        equal(Person.find(person2._id).age, 26);
+        ok(! Person.find(person2._id).male);
         throws(function() {
-            Person.find(person1.id);
+            Person.find(person1._id);
         });
     });
 
@@ -163,11 +163,84 @@
             name: 'tanakayuki',
             male: true,
             profession: 'IT'
-        })
+        });
 
         equal(person.attributes().name,       'tanakayuki');
         equal(person.attributes().age,        undefined);
         equal(person.attributes().male,       true);
         equal(person.attributes().profession, undefined);
+    });
+
+    test('hasAttribute', function() {
+        var Person = Model.create();
+        ok(! Person.hasAttribute());
+        ok(! Person.hasAttribute('name'));
+
+        Person.attributes = ['name', 'age', 'male'];
+        ok(! Person.hasAttribute());
+        ok(! Person.hasAttribute('hogehoge'));
+        ok(Person.hasAttribute('name'));
+        ok(Person.hasAttribute('age'));
+        ok(Person.hasAttribute('male'));
+    });
+
+
+    test('findBy', function() {
+        expect(15);
+
+        var Person = Model.create();
+        Person.attributes = ['name', 'age', 'male'];
+
+        var person1 = Person.init({
+            name: 'A',
+            age:  20,
+            male: true
+        });
+
+        var person2 = Person.init({
+            name: 'B',
+            age:  10,
+            male: true
+        });
+
+        var person3 = Person.init({
+            name: 'C',
+            age:  20,
+            male: false
+        });
+
+        person1.save();
+        person2.save();
+        person3.save();
+
+        equal(Person.findBy('hogehoge', 'A').length, 0);
+        equal(Person.findBy('name',     'D').length, 0);
+
+        equal(Person.findBy('name', 'A').length, 1);
+        equal(Person.findBy('name', 'A')[0].name, 'A');
+        equal(Person.findBy('name', 'A')[0].age, 20);
+        ok(Person.findBy('name', 'A')[0].male);
+
+
+        equal(Person.findBy('male', false).length, 1);
+        equal(Person.findBy('male', false)[0].name, 'C');
+        equal(Person.findBy('male', false)[0].age, 20);
+        ok(! Person.findBy('male', false)[0].male);
+
+
+        var result = Person.findBy('age', 20);
+        equal(result.length, 2);
+        for (var key in result) {
+            var record = result[key];
+            if (record.name === 'A') {
+                equal(record.age, '20');
+                ok(record.male);
+            } else if (record.name === 'C') {
+                equal(record.age, '20');
+                ok(! record.male);
+            } else {
+                ok(false);
+            }
+        }
     });
 }) (this.jQuery, this);
