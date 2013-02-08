@@ -150,9 +150,9 @@
         empty: function() {
             var r = this.records;
             for (var key in r) {
-                return true;
+                return false;
             }
-            return false;
+            return true;
         }
 
     });

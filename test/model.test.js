@@ -289,7 +289,7 @@
 
     test('Empty?', function() {
         var Person = Model.create();
-        ok(! Person.empty());
+        ok(Person.empty());
 
         var person1 = Person.init({
             name: 'tanaka',
@@ -298,6 +298,6 @@
         });
         person1.save();
 
-        ok(Person.empty());
+        ok(! Person.empty());
     });
 }) (this.jQuery, this);
