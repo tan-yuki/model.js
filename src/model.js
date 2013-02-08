@@ -116,7 +116,7 @@
             }
 
             for (var _id in this.records) {
-                if (this.records[_id][attr] === val) {
+                if (this.records[_id][attr] == val) {
                     result.push(this.find(_id));
                 }
             }
