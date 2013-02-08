@@ -286,4 +286,18 @@
         ok(recordsAsArray[1].male);
         ok(recordsAsArray[2].male);
     });
+
+    test('Empty?', function() {
+        var Person = Model.create();
+        ok(! Person.empty());
+
+        var person1 = Person.init({
+            name: 'tanaka',
+            age:  25,
+            male: true
+        });
+        person1.save();
+
+        ok(Person.empty());
+    });
 }) (this.jQuery, this);

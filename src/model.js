@@ -145,7 +145,16 @@
             }
 
             return arr;
+        },
+
+        empty: function() {
+            var r = this.records;
+            for (var key in r) {
+                return true;
+            }
+            return false;
         }
+
     });
 
     // Add Model instance properties
